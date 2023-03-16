@@ -37,30 +37,35 @@ const pecas = {
 
 controle.forEach((elemento) => {
     elemento.addEventListener("click", (evento) => {
-        //identifica o valor do data-controle, identifica o elemento pai
-        manipulaDados(evento.target.dataset.controle, evento.target.parentNode);
-        atualizaEstatistica(evento.target.dataset.controle, evento.target.dataset.peca);
+        atualizaEstatistica(evento.target.dataset.controle, evento.target.parentNode, evento.target.dataset.peca);
+        manipulaContador(evento.target.dataset.controle, evento.target.parentNode);
     })
 })
 
-function manipulaDados(operacao, controle) {
-    const peca = controle.querySelector("[data-contador]")
+function atualizaEstatistica(operacao, controle, peca) {
+    const contador = controle.querySelector("[data-contador]");
 
     if (operacao === "-") {
-        peca.value = parseInt(peca.value) - 1;
+        if (contador.value > 0) {
+            estatisticas.forEach((elemento) => {
+                elemento.textContent = parseInt(elemento.textContent) - pecas[peca][elemento.dataset.estatistica];
+            })
+        }
     } else {
-        peca.value = parseInt(peca.value) + 1;
+        estatisticas.forEach((elemento) => {
+            elemento.textContent = parseInt(elemento.textContent) + pecas[peca][elemento.dataset.estatistica];
+        })
     }
 }
 
-function atualizaEstatistica(operacao, peca) {
+function manipulaContador(operacao, controle) {
+    const contador = controle.querySelector("[data-contador]")
+
     if (operacao === "-") {
-        estatisticas.forEach( (elemento) => {  
-            elemento.textContent = parseInt(elemento.textContent) - pecas[peca][elemento.dataset.estatistica];
-        })
+        if (contador.value > 0) {
+            contador.value = parseInt(contador.value) - 1;
+        }
     } else {
-        estatisticas.forEach( (elemento) => {  
-            elemento.textContent = parseInt(elemento.textContent) + pecas[peca][elemento.dataset.estatistica];
-        })
+        contador.value = parseInt(contador.value) + 1;
     }
 }
