@@ -1,5 +1,6 @@
 const controle = document.querySelectorAll("[data-controle]");
 const estatisticas = document.querySelectorAll("[data-estatistica]");
+const mudaCor = document.querySelector("#mudaCor");
 
 const pecas = {
     "bracos": {
@@ -68,4 +69,17 @@ function manipulaContador(operacao, controle) {
     } else {
         contador.value = parseInt(contador.value) + 1;
     }
+}
+
+let indice = -1;
+
+mudaCor.addEventListener("click", () => {
+    manipulaCor();
+})
+
+function manipulaCor() {
+    const cores = ["amarelo", "azul", "preto", "rosa", "vermelho", "branco"];
+    indice = (indice + 1) % cores.length;
+    document.querySelector("#robotron").src = `img/robotron-${cores[indice]}.png`;
+    document.body.setAttribute("cor", cores[indice]);
 }
